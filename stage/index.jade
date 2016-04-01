@@ -15,10 +15,9 @@ html(lang="en")
   body
 
     // build:remove 
-    script(src="bower-libs/eventify/dist/eventify.min.js")
     script(src="bower-libs/jquery/dist/jquery.js")
-    script(src="bower-libs/velocity/velocity.js")
     script(src="bower-libs/jade/runtime.js")
+    script(src="bower-libs/PubSubJS/src/pubsub.js")
     script(src="bower-libs/d3/d3.min.js")
     script(src="https://use.typekit.net/cqd5kth.js")
     // endbuild
@@ -30,7 +29,14 @@ html(lang="en")
     script(src="js/main.js")
     // endbuild
     
-    // build:remove 
+    //- I'm including this for generating test stats 
+    // build:js2 data-shim.js
     script(src="stage/js/stage.js")
+    // endbuild
+    
+    script(type="text/javascript").
+      init();
+    
+    // build:remove 
     script(src="http://localhost:35729/livereload.js")
     // endbuild

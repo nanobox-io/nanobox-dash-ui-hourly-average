@@ -1,8 +1,7 @@
 module.exports = class TestData
 
   #
-  constructor: () ->
-    @createFakeStatDataProvider()
+  constructor: () -> @createFakeStatDataProvider()
 
   #
   createFakeStatDataProvider : ()->

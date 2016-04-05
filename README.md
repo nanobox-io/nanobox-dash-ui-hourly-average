@@ -3,10 +3,11 @@
 ```coffeescript
 
 # initialize
-app = new nanobox.HourlyAverage $("body"), data
+hourly = new nanobox.HourlyAverage $("body")
+hourly.build()
 
 # update
-app.update(data)
+hourly.update(data)
 ```
 
 ## Data structure

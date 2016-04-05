@@ -28,12 +28,11 @@ class HourlyAverage
   build : () ->
 
     # create base svg ("stage")
-    @svg = d3.select("#hourly-stats")
+    @svg = d3.select("#nanobox-dash-ui-hourly-average")
       .append("svg:svg")
         .attr
           height : @height
           width  : @width
-          class  : "hourly-stats"
 
     @_buildGraph()
     @_buildLegend()

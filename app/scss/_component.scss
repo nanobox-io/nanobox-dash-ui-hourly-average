@@ -1,32 +1,29 @@
 @include temperatures();
 
-$white      : #ffffff;
-$light-gray : #DEDEDE;
-$gray       : #9C9C9C;
-$dark-gray  : #3F3F3F;
+$light-gray : #dedede;
+$gray       : #9c9c9c;
+$dark-gray  : #3f3f3f;
 
 //
-.component        {
-  #hourly-stats   {
+#nanobox-dash-ui-hourly-average {
 
-    //
-    .circle       {fill:none; stroke:$light-gray; stroke-width:1; opacity:0.5;}
-    .dash-circle  {fill:none; stroke:$gray; stroke-width:1; stroke-dasharray:6, 2; opacity:0.4;
-      &.cool      {stroke:$cool;}
-      &.warm      {stroke:$warm ;}
-      &.hot       {stroke:$hot;}
-    }
+  //
+  .circle       {fill:none; stroke:$light-gray; stroke-width:1; opacity:0.5;}
+  .dash-circle  {fill:none; stroke:$gray; stroke-width:1; stroke-dasharray:6, 2; opacity:0.4;
+    &.cool      {stroke:$cool;}
+    &.warm      {stroke:$warm ;}
+    &.hot       {stroke:$hot;}
+  }
 
-    //
-    path          {fill:$light-gray; transition:fill 200ms;
-      &.cool      {fill:$cool;}
-      &.warm      {fill:$warm ;}
-      &.hot       {fill:$hot;}
-    }
+  //
+  path          {fill:$light-gray; transition:fill 200ms;
+    &.cool      {fill:$cool;}
+    &.warm      {fill:$warm ;}
+    &.hot       {fill:$hot;}
+  }
 
-    //
-    text          {fill:$gray; font-size:10px; text-anchor: middle; dominant-baseline: central;
-      &.primary   {fill:$dark-gray; font-weight:bold}
-    }
+  //
+  text          {fill:$gray; font-size:10px; text-anchor: middle; dominant-baseline: central;
+    &.primary   {fill:$dark-gray; font-weight:bold}
   }
 }

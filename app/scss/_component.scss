@@ -5,12 +5,9 @@ $light-gray : #DEDEDE;
 $gray       : #9C9C9C;
 $dark-gray  : #3F3F3F;
 
-// 
+//
 .component        {
   #hourly-stats   {
-
-    //
-    svg           {background:$white;}
 
     //
     .circle       {fill:none; stroke:$light-gray; stroke-width:1; opacity:0.5;}

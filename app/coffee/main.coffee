@@ -6,8 +6,11 @@ class HourlyAverage
   constructor : (@$el, @id) ->
 
     #
-    @$node = $ component()
+    @$node = $(component())
     @$el.append @$node
+
+    # D3 likes actual DOM nodes, not jQuery nodes
+    @component = $(".component", @$node).get(0)
 
     #
     @points      = 96  # the number of data points to reference
@@ -28,7 +31,7 @@ class HourlyAverage
   build : () ->
 
     # create base svg ("stage")
-    @svg = d3.select("#nanobox-dash-ui-hourly-average")
+    @svg = d3.select(@component)
       .append("svg:svg")
         .attr
           height : @height

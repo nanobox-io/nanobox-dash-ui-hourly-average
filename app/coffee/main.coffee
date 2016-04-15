@@ -80,12 +80,12 @@ class HourlyAverage
       d3.select(@)
         .transition().duration(250).delay(i * 10)
         .attr
-          class: self._getTemperature(d.stat)
+          class: self._getTemperature(d.value)
 
           # tween each arc to it's actual value
           d : d3.svg.arc()
             .innerRadius(self.innerRadius)
-            .outerRadius(self.innerRadius + (self.outerRadius * d.stat))
+            .outerRadius(self.innerRadius + (self.outerRadius * d.value))
             .startAngle(sa)
             .endAngle(ea)
 

@@ -8,7 +8,8 @@ $dark-gray  : #3f3f3f;
 .nanobox-dash-ui-hourly-average {
 
   //
-  .component {
+  .component      {
+
     //
     .circle       {fill:none; stroke:$light-gray; stroke-width:1; opacity:0.5;}
     .dash-circle  {fill:none; stroke:$gray; stroke-width:1; stroke-dasharray:6, 2; opacity:0.4;

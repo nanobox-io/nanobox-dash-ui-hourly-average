@@ -80,7 +80,7 @@ class HourlyAverage
       d3.select(@)
         .transition().duration(250).delay(i * 10)
         .attr
-          class: self._getTemperature(d.value)
+          class: "fill-temp #{self._getTemperature(d.value)}"
 
           # tween each arc to it's actual value
           d : d3.svg.arc()
@@ -103,17 +103,17 @@ class HourlyAverage
     # cool
     @graph.append("svg:circle").attr
       r : @radius * @thresholds.cool.to
-      class : "dash-circle cool"
+      class : "dash-circle stroke-temp cool"
 
     # warm
     @graph.append("svg:circle").attr
       r : @radius * @thresholds.warm.to
-      class : "dash-circle warm"
+      class : "dash-circle stroke-temp warm"
 
     # hot
     @graph.append("svg:circle").attr
       r : @radius * @thresholds.hot.to
-      class : "dash-circle hot"
+      class : "dash-circle stroke-temp hot"
 
   #
   _buildLegend : () ->

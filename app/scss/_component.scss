@@ -1,4 +1,6 @@
-@include temperatures();
+
+// this mixin provides the cool/warm/hot "temperatures" for fills, strokes, etc.
+@include core-temperatures();
 
 $light-gray : #dedede;
 $gray       : #9c9c9c;

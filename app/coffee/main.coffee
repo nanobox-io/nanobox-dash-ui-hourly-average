@@ -3,7 +3,7 @@ component = require 'jade/component'
 class HourlyAverage
 
   #
-  constructor : (@$el, @id) ->
+  constructor : (@$el, @options) ->
 
     #
     @$node = $(component())
@@ -39,7 +39,7 @@ class HourlyAverage
 
     @_buildGraph()
     @_buildLegend()
-    @_subscribeToHourlyData(@id)
+    @_subscribeToHourlyData(@options.id)
 
   #
   update : (data) =>

@@ -3,9 +3,9 @@ component = require 'jade/component'
 #
 class HourlyAverage
 
-  size:       250 # the size of the component
-  points:     96  # the number of data points to create
-  thresholds: {   # color thresholds; not dynamic for now, but easily made so
+  _size:       250 # the size of the component
+  _points:     96  # the number of data points to create
+  _thresholds: {   # color thresholds; not dynamic for now, but easily made so
     cool: {from: 0,   to: .75}
     warm: {from: .75, to: .90}
     hot:  {from: .90, to: 1  }
@@ -19,10 +19,10 @@ class HourlyAverage
     if !@options.loglevel then @options.logLevel = "INFO"
 
     #
-    @width       = @size
-    @height      = @size
-    @innerRadius = @size/10
-    @outerRadius = @size/5
+    @width       = @_size
+    @height      = @_size
+    @innerRadius = @_size/10
+    @outerRadius = @_size/5
     @radius      = (@innerRadius + @outerRadius)
 
     #
@@ -48,7 +48,7 @@ class HourlyAverage
 
     #
     self      = @
-    sliceSize = (2 * Math.PI / @points)
+    sliceSize = (2 * Math.PI / @_points)
 
     #
     @slices = @graph.selectAll('path').data(data)
@@ -104,17 +104,17 @@ class HourlyAverage
 
     # cool
     @graph.append("svg:circle").attr
-      r : @radius * @thresholds.cool.to
+      r : @radius * @_thresholds.cool.to
       class : "dash-circle stroke-temp cool"
 
     # warm
     @graph.append("svg:circle").attr
-      r : @radius * @thresholds.warm.to
+      r : @radius * @_thresholds.warm.to
       class : "dash-circle stroke-temp warm"
 
     # hot
     @graph.append("svg:circle").attr
-      r : @radius * @thresholds.hot.to
+      r : @radius * @_thresholds.hot.to
       class : "dash-circle stroke-temp hot"
 
   #
@@ -183,8 +183,8 @@ class HourlyAverage
   _getTemperature : (t) ->
     switch
       when t < 0                    then "sleep"
-      when t < @thresholds.cool.to  then "cool"
-      when t < @thresholds.warm.to  then "warm"
+      when t < @_thresholds.cool.to  then "cool"
+      when t < @_thresholds.warm.to  then "warm"
       else "hot"
 
 #

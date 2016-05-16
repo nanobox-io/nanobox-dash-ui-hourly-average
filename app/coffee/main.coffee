@@ -1,37 +1,39 @@
 component = require 'jade/component'
 
+#
 class HourlyAverage
 
+  size:       250 # the size of the component
+  points:     96  # the number of data points to create
+  thresholds: {   # color thresholds; not dynamic for now, but easily made so
+    cool: {from: 0,   to: .75}
+    warm: {from: .75, to: .90}
+    hot:  {from: .90, to: 1  }
+  }
+
   #
-  constructor : (@$el, @options) ->
+  constructor : (@$el, @options={}) ->
+
+    # set defaults
+    if !@options.logsEnabled then @options.logsEnabled = false
+    if !@options.loglevel then @options.logLevel = "INFO"
+
+    #
+    @width       = @size
+    @height      = @size
+    @innerRadius = @size/10
+    @outerRadius = @size/5
+    @radius      = (@innerRadius + @outerRadius)
 
     #
     @$node = $(component())
     @$el.append @$node
 
-    # D3 likes actual DOM nodes, not jQuery nodes
-    @component = $(".component", @$node).get(0)
-
-    #
-    @points      = 96  # the number of data points to reference
-    @thresholds  = {
-      cool: { from: 0,    to: .75 }
-      warm: { from: .75,  to: .90 }
-      hot:  { from: .90,  to: 1   }}
-
-    #
-    size         = 250   # the size of the component
-    @width        = size
-    @height       = size
-    @innerRadius = size/10
-    @outerRadius = size/5
-    @radius      = (@innerRadius + @outerRadius)
-
   #
   build : () ->
 
-    # create base svg ("stage")
-    @svg = d3.select(@component)
+    # create base svg ("stage"); D3 likes actual DOM nodes, not jQuery nodes
+    @svg = d3.select($(".component", @$node).get(0))
       .append("svg:svg")
         .attr
           height : @height

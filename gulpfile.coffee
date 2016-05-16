@@ -27,13 +27,13 @@ usemin       = require 'gulp-usemin'
 watch        = require 'gulp-watch'
 wrap         = require 'gulp-wrap'
 
-# 
+#
 jadeTargetDir     = './server/js/jade'
 
 # Paths to source files
 jadeStagePath     = 'stage/index.jade'
 jadePath          = 'app/jade/**/*.jade'
-cssPath           = ['app/scss/**/*.scss', 'libs/core-styles/**/*.scss']
+cssPath           = 'app/scss/**/*.scss'
 cssStagePath      = 'stage/stage.scss'
 appJsPath         = ['app/coffee/**/*.coffee', "#{jadeTargetDir}/**/*.js"]
 stageJsPath       = 'stage/**/*.coffee'

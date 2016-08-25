@@ -8,17 +8,17 @@ module.exports = class TestData
     PubSub.subscribe 'STATS.SUBSCRIBE.HOURLY_AVERAGE', (m, data) =>
       hourlyAverageDataSimulator.waitForData(data)
 
-    PubSub.subscribe 'STATS.UNSUBSCRIBE', (m, data) =>
+    # PubSub.subscribe 'STATS.UNSUBSCRIBE', (m, data) =>
 
   #
   waitForData : (data) ->
     data.callback hourlyAverageDataSimulator.generateHourlyAverages()
-    setInterval () ->
 
-      # disable updates by default
+    # disable updates by default
+    setInterval () ->
       if window.enableUpdates
         data.callback hourlyAverageDataSimulator.generateHourlyAverages()
-    , 5000
+    , 3000
 
   #
   generateHourlyAverages : () ->

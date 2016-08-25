@@ -1,4 +1,4 @@
-.nanobox-dash-ui-hourly-average {
+.nanobox-dash-ui-hourly-average {display:flex; flex-direction:column;
   .component      {
 
     //
@@ -12,5 +12,11 @@
     text          {fill:$gray; font-size:10px; text-anchor: middle; dominant-baseline: central;
       &.primary   {fill:$dark-gray; font-weight:bold}
     }
+  }
+
+  //
+  .controls       {display:flex; align-items:center; justify-content:space-between;
+    .metrics      {}
+    .periods      {}
   }
 }

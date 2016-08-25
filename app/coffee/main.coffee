@@ -1,3 +1,6 @@
+Utils = require './utils'
+
+#
 component = require 'jade/component'
 
 #
@@ -5,28 +8,36 @@ class HourlyAverage
 
   _size:       250 # the size of the component
   _points:     96  # the number of data points to create
-  _thresholds: {   # color thresholds; not dynamic for now, but easily made so
-    cool: {from: 0,   to: .75}
-    warm: {from: .75, to: .90}
-    hot:  {from: .90, to: 1  }
-  }
+
+  # these are the available periods to display on the component; the value represents
+  # the index to pull from this list once selected
+  _periods: [
+    {text: "24 hours", value: 0, start:"25h", stop:"1h"},
+    {text: "7 days", value: 1, start:"168h", stop:"1h"},
+    {text: "30 days", value: 2, start:"720h", stop:"1h"}
+  ]
 
   #
   constructor : (@$el, @options={}) ->
 
     # set defaults
-    if !@options.logsEnabled then @options.logsEnabled = false
-    if !@options.loglevel then @options.logLevel = "INFO"
+    if !@options.metrics then @options.metrics = ["cpu", "ram", "swap", "disk"]
+    @metric = @options.metrics[0]
+    @start  = @_periods[0].start
+    @stop   = @_periods[0].stop
+
+    # 
+    @size = @options.size || @_size
 
     #
-    @width       = @_size
-    @height      = @_size
-    @innerRadius = @_size/10
-    @outerRadius = @_size/5
+    @width       = @size
+    @height      = @size
+    @innerRadius = @size/10
+    @outerRadius = @size/5
     @radius      = (@innerRadius + @outerRadius)
 
     #
-    @$node = $(component())
+    @$node = $(component({metrics: @options.metrics, periods: @_periods}))
     @$el.append @$node
 
   #
@@ -41,10 +52,25 @@ class HourlyAverage
 
     @_buildGraph()
     @_buildLegend()
-    @_subscribeToHourlyData(@options.id)
+
+    # add event handlers
+
+    # when a metirc is changed update the desired metric and request data
+    @$node.find(".metrics").change (e) =>
+      @metric = $(e.currentTarget).find("option:selected").val()
+      @_subscribeToHourlyData()
+
+    # when a period is changed update the desired metric and request data
+    @$node.find(".periods").change (e) =>
+      period = $(e.currentTarget).find("option:selected").val()
+      [@start, @stop] = [@_periods[period].start, @_periods[period].start]
+      @_subscribeToHourlyData()
+
+    # get initial (default) stats
+    @_subscribeToHourlyData()
 
   #
-  update : (data) =>
+  updateAverageStats : (data) =>
 
     #
     self      = @
@@ -53,7 +79,9 @@ class HourlyAverage
     #
     @slices = @graph.selectAll('path').data(data)
 
-    # init
+    # CREATE
+
+    #
     @slices.enter()
       .append("path")
         .each (d, i) ->
@@ -72,7 +100,8 @@ class HourlyAverage
               .startAngle(sa)
               .endAngle(ea)
 
-    # update
+    # UPDATE
+
     @slices.each (d, i) ->
 
       a  = (i + 1) # because i == 0 on the first iteration killing the first data point
@@ -82,7 +111,7 @@ class HourlyAverage
       d3.select(@)
         .transition().duration(250).delay(i * 10)
         .attr
-          class: "fill-temp #{self._getTemperature(d.value)}"
+          class: "fill-temp #{Utils.getTemperature(d.value)}"
 
           # tween each arc to it's actual value
           d : d3.svg.arc()
@@ -104,17 +133,17 @@ class HourlyAverage
 
     # cool
     @graph.append("svg:circle").attr
-      r : @radius * @_thresholds.cool.to
+      r : @radius * Utils.thresholds.cool.to
       class : "dash-circle stroke-temp cool"
 
     # warm
     @graph.append("svg:circle").attr
-      r : @radius * @_thresholds.warm.to
+      r : @radius * Utils.thresholds.warm.to
       class : "dash-circle stroke-temp warm"
 
     # hot
     @graph.append("svg:circle").attr
-      r : @radius * @_thresholds.hot.to
+      r : @radius * Utils.thresholds.hot.to
       class : "dash-circle stroke-temp hot"
 
   #
@@ -123,7 +152,7 @@ class HourlyAverage
     self = @
 
     # create clock face
-    timeline = @_getTimeArray 23, 24
+    timeline = Utils.getTimeArray 23, 24
     sliceSize = 2 * Math.PI / 24 # even increments
 
     #
@@ -139,53 +168,15 @@ class HourlyAverage
           y : (d, i)  -> (-self.outerRadius*1.75) * Math.cos(sliceSize * i)
 
   #
-  _subscribeToHourlyData : (id) ->
+  _subscribeToHourlyData : () ->
     PubSub.publish 'STATS.SUBSCRIBE.HOURLY_AVERAGE', {
-      statProviderId : id
-      callback       : @update
+      start    : @start
+      stop     : @stop
+      entity   : @options.entity
+      entityId : @options.entityId
+      metric   : @metric
+      callback : @updateAverageStats
     }
-
-  #
-  _getTimeArray : (hour, hours=25) ->
-
-    #
-    timeline = []
-
-    # get the array
-    for i in [ 0 ... hours ]
-      timeline.unshift @_getTimeObject hour--
-      hour = 23 if hour == -1
-
-    #
-    timeline
-
-  #
-  _getTimeObject : (hour) ->
-    switch
-      when hour == 0
-        hour     : 12
-        period   : "am"
-        military : hour
-      when hour < 12
-        hour   : hour
-        period : "am"
-        military : hour
-      when hour == 12
-        hour   : 12
-        period : "pm"
-        military : hour
-      when hour > 12
-        hour   : hour - 12
-        period : "pm"
-        military : hour
-
-  #
-  _getTemperature : (t) ->
-    switch
-      when t < 0                    then "sleep"
-      when t < @_thresholds.cool.to  then "cool"
-      when t < @_thresholds.warm.to  then "warm"
-      else "hot"
 
 #
 window.nanobox ||= {}

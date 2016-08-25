@@ -1,2 +1,17 @@
 .nanobox-dash-ui-hourly-average
   .component
+  
+  //- 
+  .controls
+  
+    //- 
+    select.metrics
+      each metric in metrics
+        option(value=metric)= metric
+        
+    //- 
+    .group
+      span last:
+      select.periods
+        each period in periods
+          option(value=period.value)= period.text

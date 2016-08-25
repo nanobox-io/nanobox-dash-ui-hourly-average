@@ -5,13 +5,14 @@
   .controls
   
     //- 
-    select.metrics
-      each metric in metrics
-        option(value=metric)= metric
+    .control
+      select.metrics
+        each metric in metrics
+          option(value=metric)= metric
         
     //- 
-    .group
-      span last:
+    .control
+      .label over last
       select.periods
         each period in periods
           option(value=period.value)= period.text

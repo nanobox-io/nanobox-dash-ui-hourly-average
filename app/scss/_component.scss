@@ -15,8 +15,12 @@
   }
 
   //
-  .controls       {display:flex; align-items:center; justify-content:space-between;
-    .metrics      {}
-    .periods      {}
+  .controls       {display:flex; align-items:center; padding:10px 5px;
+    .control      {display:flex; align-items:center; margin-right:5px;
+      .label      {@include font-size(10px); margin-right:5px; color:$gray; text-transform:uppercase;}
+
+      &.metrics    {}
+      &.periods    {}
+    }
   }
 }

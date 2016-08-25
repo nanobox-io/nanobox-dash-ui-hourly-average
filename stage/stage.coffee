@@ -3,14 +3,23 @@ window.hourlyAverageDataSimulator = new TestData()
 
 #
 window.init = () ->
-  # statsDataSimultor.createFakeStatDataProvider()
+  hourlyAverageDataSimulator.createFakeStatDataProvider()
 
   #
-  options =
-    # metrics     : []
-    entity      : "host"
-    entityId    : "0001"
+  options1 =
+    entity   : "host"
+    entityId : "0001"
 
   #
-  hourly = new nanobox.HourlyAverage $("body"), options
-  hourly.build()
+  hourly1 = new nanobox.HourlyAverage $(".hourly1"), options1
+  hourly1.build()
+
+  #
+  options2 =
+    metrics  : ["cpu", "ram"]
+    entity   : "host"
+    entityId : "0001"
+
+  #
+  hourly2 = new nanobox.HourlyAverage $(".hourly2"), options2
+  hourly2.build()

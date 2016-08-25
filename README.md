@@ -7,13 +7,15 @@ hourly = new nanobox.HourlyAverage $("body"), {}
 hourly.build()
 
 # update
-hourly.update(data)
+hourly.updateAverageStats(data)
 ```
 
 #### Options
 | Option=default | Description |
 |---|---|
-| id="" | The `id` of the service the component belongs to |
+| metrics=["cpu", "ram", "swap", "disk"] | The available metrics to toggle
+| entity="" | The type of service the component belongs to |
+| entityId="" | The `id` of the service the component belongs to |
 
 ## Data structure
 The data structure is an array of "time objects"

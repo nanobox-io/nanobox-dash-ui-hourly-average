@@ -27,7 +27,7 @@ usemin       = require 'gulp-usemin'
 watch        = require 'gulp-watch'
 wrap         = require 'gulp-wrap'
 
-#
+
 jadeTargetDir     = './server/js/jade'
 
 # Paths to source files
@@ -171,7 +171,7 @@ minifyAndJoin = () ->
 # ------------------------------------ Server
 
 server = ->
-  port      = 6293
+  port      = 4429
   hostname  = null # allow to connect from anywhere
   base      = 'server'
   directory = 'server'
@@ -185,7 +185,7 @@ server = ->
   console.log "SERVER LISTENING -> localhost:#{port}"
 
 # Open in the browser
-launch = -> gulp.src("").pipe open( uri: "http://localhost:6293/index.html" )
+launch = -> gulp.src("").pipe open( uri: "http://localhost:4429/index.html" )
 
 
 # ----------- MAIN ----------- #

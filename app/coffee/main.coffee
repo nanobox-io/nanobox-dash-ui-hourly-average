@@ -26,7 +26,7 @@ class HourlyAverage
     @start  = @_periods[0].start
     @stop   = @_periods[0].stop
 
-    # 
+    #
     @size = @options.size || @_size
 
     #
@@ -63,7 +63,7 @@ class HourlyAverage
     # when a period is changed update the desired metric and request data
     @$node.find(".periods").change (e) =>
       period = $(e.currentTarget).find("option:selected").val()
-      [@start, @stop] = [@_periods[period].start, @_periods[period].start]
+      [@start, @stop] = [@_periods[period].start, @_periods[period].stop]
       @_subscribeToHourlyData()
 
     # get initial (default) stats

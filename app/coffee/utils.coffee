@@ -15,3 +15,10 @@ module.exports = class Utils
       when val <= 0.75 then "cool"
       when val <= 0.90 then "warm"
       else                  "hot"
+
+  @sortData : (ar) ->
+    ar.sort (a,b)=>
+      timeA = Number a.time.split(':').join('.')
+      timeB = Number b.time.split(':').join('.')
+      if timeA < timeB then return -1
+      else                  return 1

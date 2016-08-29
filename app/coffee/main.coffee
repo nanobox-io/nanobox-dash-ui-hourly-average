@@ -71,6 +71,7 @@ class HourlyAverage
 
   #
   updateAverageStats : (data) =>
+    Utils.sortData data
     self = @
 
     # CREATE

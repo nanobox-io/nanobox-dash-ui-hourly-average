@@ -22,7 +22,7 @@ class HourlyAverage
   constructor : (@$el, @options={}) ->
 
     # set defaults
-    if !@options.metrics then @options.metrics = ["cpu", "ram", "swap", "disk"]
+    @options.metrics ||= ["cpu", "ram", "swap", "disk"]
     @metric = @options.metrics[0]
     @start  = @_periods[0].start
     @stop   = @_periods[0].stop

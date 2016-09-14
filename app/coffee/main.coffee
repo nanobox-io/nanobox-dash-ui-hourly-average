@@ -108,7 +108,7 @@ class HourlyAverage
       sa = ((i+1)*self._slices/4) # /4 because we're showing 4 poitns for each time (24/4)
       ea = (sa+self._slices/4)    # /4 because we're showing 4 poitns for each time (24/4)
 
-      # 
+      #
       d3.select(@)
         .transition().duration(250).delay(i*10)
         .attr

@@ -101,13 +101,14 @@ class HourlyAverage
       # if the value is -1 we don't want to do any drawing
       return if d.value == -1
 
+      # if the value is 0 then we want to bump it up a little just to show some green
+      d.value = 0.05 if d.value == 0
+
       # i+1 because 0 kills the first data point
       sa = ((i+1)*self._slices/4) # /4 because we're showing 4 poitns for each time (24/4)
       ea = (sa+self._slices/4)    # /4 because we're showing 4 poitns for each time (24/4)
 
-      # if the value is 0 then we want to bump it up a little just to show some green
-      d.value = 0.05 if d.value == 0
-
+      # 
       d3.select(@)
         .transition().duration(250).delay(i*10)
         .attr

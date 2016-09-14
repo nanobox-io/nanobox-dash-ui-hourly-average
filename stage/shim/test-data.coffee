@@ -6,20 +6,23 @@ module.exports = class TestData
   #
   createFakeStatDataProvider : ()->
     PubSub.subscribe 'STATS.SUBSCRIBE.HOURLY_AVERAGE', (m, data) =>
-      hourlyAverageDataSimulator.waitForData(data)
+      data.callback hourlyAverageDataSimulator.generateGrowingAverges()
 
   #
-  waitForData : (data) ->
-    data.callback hourlyAverageDataSimulator.generateOutOfOrderValues()
-
-    # disable updates by default
-    setInterval () ->
-      if window.enableUpdates
-        data.callback hourlyAverageDataSimulator.generateOutOfOrderValues()
-    , 3000
+  generateNoAverages : () ->
+    data = []
+    data
 
   #
-  generateHourlyAverages : () ->
+  generateEmptyAverages : () ->
+    data = []
+    for hour in [0...24]
+      for quarter in [0, 15, 30, 45]
+        data.push {time: "#{("0" + hour).slice(-2)}:#{("0" + quarter).slice(-2)}", value: -1}
+    data
+
+  #
+  generateRandomAverages : () ->
     data = []
     for hour in [0...24]
       for quarter in [0, 15, 30, 45]
@@ -28,7 +31,7 @@ module.exports = class TestData
     data
 
   #
-  generateOutOfOrderValues : () ->
+  generateGrowingAverges : () ->
     data = []
     total = 0
 

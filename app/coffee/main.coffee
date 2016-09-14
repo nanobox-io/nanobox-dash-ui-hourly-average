@@ -71,8 +71,10 @@ class HourlyAverage
 
   #
   updateAverageStats : (data) =>
-    Utils.sortData data
     self = @
+
+    # we need to sort the data into chronological order
+    Utils.sortData data
 
     # CREATE
     sliceEnter = @center.selectAll('path').data(data)
@@ -95,6 +97,9 @@ class HourlyAverage
 
     # UPDATE
     @center.selectAll('path').data(data).each (d, i) ->
+
+      # if the value is -1 we don't want to do any drawing
+      return if d.value == -1
 
       # i+1 because 0 kills the first data point
       sa = ((i+1)*self._slices/4) # /4 because we're showing 4 poitns for each time (24/4)
